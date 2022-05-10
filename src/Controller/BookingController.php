@@ -18,15 +18,14 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/booking", name="app_booking", methods={"GET"})
+     * @Route("/booking", name="app_booking", methods={"POST"})
      */
     public function index(): Response
     {
         $bookings = $this->bookingRepository->findAppointements();
-        dd($bookings);
+        //dd($bookings);
         return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/BookingController.php',
+            'bookings' => $bookings
         ]);
     }
 }
