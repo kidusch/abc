@@ -18,7 +18,7 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/booking", name="app_booking", methods={"POST"})
+     * @Route("/booking", name="app_booking", methods={"GET"})
      */
     public function index(): Response
     {
