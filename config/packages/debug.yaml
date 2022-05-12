@@ -1,7 +1,9 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-        
+        mapping_types:
+            enum: string
+
 when@dev:
     debug:
         # Forwards VarDumper Data clones to a centralized server allowing to inspect dumps on CLI or in your browser.
