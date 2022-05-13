@@ -38,15 +38,39 @@ class BookingRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
-    public function findAppointements()
+
+    public function findServices()
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * FROM wp_795628_amelia_appointments";
+        $sql = "SELECT * FROM wp_795628_amelia_services";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         return $resultSet->fetchAllAssociative();
     }
+
+    public function activeAppointements()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * 
+        FROM wp_795628_amelia_customer_bookings INNER JOIN wp_795628_amelia_appointments ON wp_795628_amelia_customer_bookings.appointmentId=wp_795628_amelia_appointments.id 
+        WHERE wp_795628_amelia_appointments.bookingStart >= NOW()";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function historyAppointements()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * 
+        FROM wp_795628_amelia_customer_bookings INNER JOIN wp_795628_amelia_appointments ON wp_795628_amelia_customer_bookings.appointmentId=wp_795628_amelia_appointments.id 
+        WHERE wp_795628_amelia_appointments.bookingStart < NOW()";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
+    
 //    /**
 //     * @return Booking[] Returns an array of Booking objects
 //     */

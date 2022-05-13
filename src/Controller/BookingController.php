@@ -18,14 +18,38 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/booking", name="app_booking", methods={"POST"})
+     * @Route("/services", name="app_services", methods={"POST"})
      */
-    public function index(): Response
+    public function services(): Response
     {
-        $bookings = $this->bookingRepository->findAppointements();
+        $services = $this->bookingRepository->findServices();
         //dd($bookings);
         return $this->json([
-            'bookings' => $bookings
+            'services' => $services
+        ]);
+    }
+
+    /**
+     * @Route("/appointments", name="app_appointments", methods={"POST"})
+     */
+    public function appointments(): Response
+    {
+        $appointments = $this->bookingRepository->activeAppointements();
+        //dd($bookings);
+        return $this->json([
+            'appointments' => $appointments
+        ]);
+    }
+
+    /**
+     * @Route("/historyappointments", name="app_historyappointments", methods={"POST"})
+     */
+    public function historyAppointements(): Response
+    {
+        $historyappointments = $this->bookingRepository->historyAppointements();
+        //dd($bookings);
+        return $this->json([
+            'historyappointments' => $historyappointments
         ]);
     }
 }
