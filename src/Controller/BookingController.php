@@ -52,4 +52,27 @@ class BookingController extends AbstractController
             'historyappointments' => $historyappointments
         ]);
     }
+
+    /**
+     * @Route("/login/{email}/{password}", name="app_login", methods={"POST"})
+     */
+    public function login($email, $password): Response
+    {
+        $check = $this->bookingRepository->checkEmail($email);
+        if (empty($check)){
+            //sign up
+        } else {
+            if($check[0]['password'] === null) {
+                dd($check[0]['password']);
+                //Update password for existing account
+            }
+            //log in
+            
+        }
+        return $this->json([
+            'email' => $email,
+            'password' => $password,
+            'check' => empty($check)
+        ]);
+    }
 }
