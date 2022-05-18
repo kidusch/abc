@@ -17,43 +17,40 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository 
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
-    public function add(User $entity, bool $flush = false): void
+    public function checkEmail(string $email)
     {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * 
+        FROM wp_795628_amelia_users 
+        WHERE email = '$email'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
     }
 
-    public function remove(User $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+    public function authenticate(string $email, string $password){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * 
+        FROM wp_795628_amelia_users 
+        WHERE email = '$email' AND password = '$password'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
-    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    public function updatePassword(string $email, string $password)
     {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
-        }
-
-        $user->setPassword($newHashedPassword);
-
-        $this->add($user, true);
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "UPDATE wp_795628_amelia_users SET password = '$password' WHERE email = '$email'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
     }
 
 //    /**

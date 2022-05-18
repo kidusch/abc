@@ -70,28 +70,6 @@ class BookingRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function checkEmail($email)
-    {
-        $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * 
-        FROM wp_795628_amelia_users 
-        WHERE email = '$email'";
-        $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery();
-        return $resultSet->fetchAllAssociative();
-    }
-
-    public function updatePassword($email)
-    {
-        $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * 
-        FROM wp_795628_amelia_users 
-        WHERE email = '$email'";
-        $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery();
-        return $resultSet->fetchAllAssociative();
-    }
-
     
 //    /**
 //     * @return Booking[] Returns an array of Booking objects
