@@ -39,7 +39,7 @@ class BookingRepository extends ServiceEntityRepository
         }
     }
 
-    public function findServices()
+    public function fetchServices()
     {
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT * FROM wp_795628_amelia_services";
@@ -48,7 +48,7 @@ class BookingRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function activeAppointements()
+    public function activeAppointments()
     {
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT * 
@@ -59,7 +59,7 @@ class BookingRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function historyAppointements()
+    public function historyAppointments()
     {
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT * 
@@ -70,6 +70,31 @@ class BookingRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function bookAppointments($booking_start, $booking_end, $service_id, $provider_id, $service_price, $customer_id){
+        $conn = $this->getEntityManager()->getConnection();
+        
+        //statement 1
+        $sql = "INSERT INTO wp_795628_amelia_appointments (status, bookingStart, bookingEnd, notifyParticipants, serviceId, providerId) 
+        VALUES ('approved', '$booking_start', '$booking_end', 1 , '$service_id', '$provider_id')";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        
+        //statement 2
+        $sql1 = "SELECT MAX(id) FROM wp_795628_amelia_appointments";
+        $stmt1 = $conn->prepare($sql1);
+        $resultSet1 = $stmt1->executeQuery();
+        $result1 = $resultSet1->fetchAllAssociative();
+        $appointment_id = $result1[0]["MAX(id)"];
+        
+        //statement 3
+        $sql2 = "INSERT INTO wp_795628_amelia_customer_bookings (appointmentId, customerId, status, price, persons, token, aggregatedPrice) 
+        VALUES ('$appointment_id', '$customer_id', 'approved', '$service_price', 1, TIME(NOW()), 1)";
+        $stmt2 = $conn->prepare($sql2);
+        $resultSet2 = $stmt2->executeQuery();
+        $result2 = $resultSet2->fetchAllAssociative();
+
+        return $result1;
+    }
     
 //    /**
 //     * @return Booking[] Returns an array of Booking objects

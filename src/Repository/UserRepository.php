@@ -35,6 +35,16 @@ class UserRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function fetchId($email){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT id 
+        FROM wp_795628_amelia_users 
+        WHERE email = '$email'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
     public function authenticate(string $email, string $password){
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT * 
@@ -45,12 +55,30 @@ class UserRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function register($first_name, $last_name, $phone_num, $email, $password){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "INSERT INTO wp_795628_amelia_users (status, type, firstName, lastName, phone, email, password) 
+        VALUES ('visible', 'customer', '$first_name', '$last_name', '$phone_num', '$email', '$password')";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet;
+    }
+
     public function updatePassword(string $email, string $password)
     {
         $conn = $this->getEntityManager()->getConnection();
         $sql = "UPDATE wp_795628_amelia_users SET password = '$password' WHERE email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
+    }
+
+    public function fetchBarbers(){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM wp_795628_amelia_users WHERE wp_795628_amelia_users.type = 'provider'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        $conn->close();
+        return $resultSet->fetchAllAssociative();
     }
 
 //    /**
