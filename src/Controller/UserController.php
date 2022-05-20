@@ -63,7 +63,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/barbers", name="sign_up", methods={"GET"})
+     * @Route("/barbers", name="fetch_barbers", methods={"GET"})
      */
     public function fetchBarbers(): Response{
         $result = $this->userRepository->fetchBarbers();
