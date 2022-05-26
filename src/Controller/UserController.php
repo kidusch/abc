@@ -49,15 +49,15 @@ class UserController extends AbstractController
     /**
      * @Route("/signup", name="sign_up", methods={"POST"})
      */
-    public function signup(Request $request): Response{
+    public function signup(Request $request): Response
+    {
         $request_data = json_decode($request->getContent(), true);
         $user_data = $this->userRepository->checkEmail($request_data["email"]);
-        if (empty($user_data)){
+        if (empty($user_data)) {
             $r = $this->userRepository->register($request_data["firstName"], $request_data["lastName"], $request_data["phoneNo"], $request_data["email"], $request_data["password"]);
             $result = $this->userRepository->fetchId($request_data["email"]);
             return $this->json(['Success' => 'Successfuly Registered.', 'user_id' => $result[0]["id"]]);
-        }
-        else{
+        } else {
             return $this->json(['Failure' => 'Email already exists!']);
         }
     }
@@ -65,8 +65,23 @@ class UserController extends AbstractController
     /**
      * @Route("/barbers", name="fetch_barbers", methods={"GET"})
      */
-    public function fetchBarbers(): Response{
+    public function fetchBarbers(): Response
+    {
         $result = $this->userRepository->fetchBarbers();
+
+        return $this->json($result);
+    }
+
+
+    /**
+     * @Route("/user", name="fetch_user", methods={"POST"})
+     */
+    public function fetchUserInfo(Request $request): Response
+    {
+        $request_data = json_decode($request->getContent(), true);
+        $email = $request_data["email"];
+
+        $result = $this->userRepository->fetchUser($email);
 
         return $this->json($result);
     }
