@@ -28,21 +28,21 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/appointments", name="app_appointments", methods={"GET"})
+     * @Route("/appointments/{id}", name="app_appointments", methods={"GET"})
      */
-    public function appointments(): Response
+    public function appointments(int $id): Response
     {
-        $appointments = $this->bookingRepository->activeAppointments();
+        $appointments = $this->bookingRepository->activeAppointments($id);
         //dd($bookings);
         return $this->json($appointments);
     }
 
     /**
-     * @Route("/historyappointments", name="app_historyappointments", methods={"GET"})
+     * @Route("/historyappointments/{id}", name="app_historyappointments", methods={"GET"})
      */
-    public function historyAppointements(): Response
+    public function historyAppointements(int $id): Response
     {
-        $historyappointments = $this->bookingRepository->historyAppointments();
+        $historyappointments = $this->bookingRepository->historyAppointments($id);
         //dd($bookings);
         return $this->json($historyappointments);
     }
