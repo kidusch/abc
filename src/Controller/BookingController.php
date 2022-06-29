@@ -48,16 +48,6 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/now", name="now", methods={"GET"})
-     */
-    public function now(): Response
-    {
-        $historyappointments = $this->bookingRepository->now();
-        return $this->json($historyappointments);
-    }
-
-
-    /**
      * @Route("/bookappointments", name="app_bookappointments", methods={"POST"})
      */
     public function bookAppointments(Request $request ): Response{

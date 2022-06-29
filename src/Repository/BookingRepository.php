@@ -70,14 +70,6 @@ class BookingRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function now(){
-        $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT NOW()";
-        $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery();
-        return $resultSet->fetchAllAssociative();
-    }
-
     public function bookAppointments($booking_start, $booking_end, $service_id, $provider_id, $service_price, $customer_id){
         $conn = $this->getEntityManager()->getConnection();
         
