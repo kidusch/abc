@@ -47,7 +47,7 @@ class BookingController extends AbstractController
         return $this->json($historyappointments);
     }
 
-        /**
+    /**
      * @Route("/now", name="now", methods={"GET"})
      */
     public function now(): Response
