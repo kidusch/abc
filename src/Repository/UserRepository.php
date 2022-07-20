@@ -64,6 +64,15 @@ class UserRepository extends ServiceEntityRepository
         return $resultSet;
     }
 
+    public function updateUser($first_name, $last_name, $phone_num, $email, $password){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "UPDATE wp_795628_amelia_users 
+        SET firstName = '$first_name', lastName = '$last_name', phone = '$phone_num', password = '$password' WHERE email = '$email'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet;
+    }
+
     public function updatePassword(string $email, string $password)
     {
         $conn = $this->getEntityManager()->getConnection();

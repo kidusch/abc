@@ -63,6 +63,22 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/updateUser", name="update", methods={"POST"})
+     */
+    public function updateUser(Request $request): Response
+    {
+        $request_data = json_decode($request->getContent(), true);
+        $user_data = $this->userRepository->checkEmail($request_data["email"]);
+        if (!empty($user_data)) {
+            $r = $this->userRepository->updateUser($request_data["firstName"], $request_data["lastName"], $request_data["phoneNo"], $request_data["email"], $request_data["password"]);
+            $result = $this->userRepository->fetchId($request_data["email"]);
+            return $this->json(['Success' => 'Successfuly Updated.', 'user_id' => $result[0]["id"]]);
+        } else {
+            return $this->json(['Failure' => 'User Does not exist!']);
+        }
+    }
+
+    /**
      * @Route("/barbers", name="fetch_barbers", methods={"GET"})
      */
     public function fetchBarbers(): Response
