@@ -38,6 +38,15 @@ class BookingController extends AbstractController
     }
 
     /**
+     * @Route("/allappointments/", name="all_appointments", methods={"GET"})
+     */
+    public function allAppointments() : Response { 
+        $appointments = $this->bookingRepository->allActiveAppointments();
+        //dd($bookings);
+        return $this->json($appointments);
+    }
+
+    /**
      * @Route("/historyappointments/{id}", name="app_historyappointments", methods={"GET"})
      */
     public function historyAppointements(int $id): Response
