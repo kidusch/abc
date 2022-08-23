@@ -47,6 +47,33 @@ class BookingController extends AbstractController
     }
 
     /**
+     * @Route("/freeweekdays/", name="freeweekdays", methods={"GET"})
+     */
+    public function freeWeekdays() : Response { 
+        $appointments = $this->bookingRepository->freeWeekdays();
+        //dd($bookings);
+        return $this->json($appointments);
+    }
+
+    /**
+     * @Route("/workingtime/", name="daysoff", methods={"GET"})
+     */
+    public function workingTime() : Response { 
+        $appointments = $this->bookingRepository->workingTime();
+        //dd($bookings);
+        return $this->json($appointments);
+    }
+
+    /**
+     * @Route("/daysoff/", name="daysoff", methods={"GET"})
+     */
+    public function barbersDaysoff() : Response { 
+        $appointments = $this->bookingRepository->barbersDaysoff();
+        //dd($bookings);
+        return $this->json($appointments);
+    }
+
+    /**
      * @Route("/historyappointments/{id}", name="app_historyappointments", methods={"GET"})
      */
     public function historyAppointements(int $id): Response

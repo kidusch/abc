@@ -70,6 +70,36 @@ class BookingRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function freeWeekdays()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT weekday_off 
+        FROM wp_795628_amelia_daysoff";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function barbersDaysoff()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * 
+        FROM wp_795628_amelia_providers_to_daysoff WHERE wp_795628_amelia_providers_to_daysoff >= DATE(NOW())";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function fetchWorkingTime()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * 
+        FROM wp_795628_amelia_working _time";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
     public function historyAppointments($id)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -83,7 +113,6 @@ class BookingRepository extends ServiceEntityRepository
 
     public function bookAppointments($booking_start, $booking_end, $service_id, $provider_id, $service_price, $customer_id){
         $conn = $this->getEntityManager()->getConnection();
-        
         //statement 1
         $sql = "INSERT INTO wp_795628_amelia_appointments (status, bookingStart, bookingEnd, notifyParticipants, serviceId, providerId) 
         VALUES ('approved', '$booking_start', '$booking_end', 1 , '$service_id', '$provider_id')";
