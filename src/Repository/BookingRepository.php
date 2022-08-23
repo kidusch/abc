@@ -84,7 +84,7 @@ class BookingRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT * 
-        FROM wp_795628_amelia_providers_to_daysoff WHERE wp_795628_amelia_providers_to_daysoff >= DATE(NOW())";
+        FROM wp_795628_amelia_providers_to_daysoff WHERE wp_795628_amelia_providers_to_daysoff.endDate <= DATE(NOW());";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         return $resultSet->fetchAllAssociative();
