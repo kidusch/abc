@@ -99,6 +99,15 @@ class BookingRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function fetchWorkingHours()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM `working_hour`";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
     public function historyAppointments($id)
     {
         $conn = $this->getEntityManager()->getConnection();

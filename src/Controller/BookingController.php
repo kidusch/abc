@@ -65,6 +65,15 @@ class BookingController extends AbstractController
     }
 
     /**
+     * @Route("/workinghours/", name="workinghours", methods={"GET"})
+     */
+    public function workingHours() : Response { 
+        $appointments = $this->bookingRepository->fetchWorkingHours();
+        //dd($bookings);
+        return $this->json($appointments);
+    }
+
+    /**
      * @Route("/daysoff/", name="daysoff", methods={"GET"})
      */
     public function barbersDaysoff() : Response { 
