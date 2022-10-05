@@ -88,6 +88,17 @@ class UserController extends AbstractController
         return $this->json($result);
     }
 
+    /**
+     * @Route("/delete", name="delete_user", methods={"POST"})
+     */
+    public function deleteUser(Request $request): Response
+    {
+        $request_data = json_decode($request->getContent(), true);
+        $email = $request_data["email"];
+        $result = $this->userRepository->deleteUser($email);
+
+        return $this->json($result);
+    }
 
     /**
      * @Route("/user", name="fetch_user", methods={"POST"})

@@ -99,6 +99,15 @@ class UserRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function deleteUser($email){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "DELETE FROM wp_795628_amelia_users WHERE wp_795628_amelia_users.email = '$email'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        $conn->close();
+        return $resultSet->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
