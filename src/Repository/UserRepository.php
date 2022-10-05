@@ -61,6 +61,7 @@ class UserRepository extends ServiceEntityRepository
         VALUES ('visible', 'customer', '$first_name', '$last_name', '$phone_num', '$email', '$password')";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
+        $conn->close();
         return $resultSet;
     }
 
@@ -70,6 +71,7 @@ class UserRepository extends ServiceEntityRepository
         SET firstName = '$first_name', lastName = '$last_name', phone = '$phone_num', password = '$password' WHERE email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
+        $conn->close();
         return $resultSet;
     }
 
@@ -79,6 +81,7 @@ class UserRepository extends ServiceEntityRepository
         $sql = "UPDATE wp_795628_amelia_users SET password = '$password' WHERE email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
+        $conn->close();
     }
 
     public function fetchBarbers(){
@@ -105,6 +108,5 @@ class UserRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
-        return $resultSet->fetchAllAssociative();
     }
 }
