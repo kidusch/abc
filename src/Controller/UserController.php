@@ -80,6 +80,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/barbers", name="fetch_barbers", methods={"GET"})
+     * lists the barbers
      */
     public function fetchBarbers(): Response
     {

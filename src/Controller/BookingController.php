@@ -29,6 +29,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/appointments/{id}", name="app_appointments", methods={"GET"})
+     * the id is for customer id and it checks the active future appointments and return null if there is no future appointments
      */
     public function appointments(int $id): Response
     {
@@ -39,6 +40,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/allappointments/", name="all_appointments", methods={"GET"})
+     * lists all the appointments
      */
     public function allAppointments() : Response { 
         $appointments = $this->bookingRepository->allActiveAppointments();
@@ -48,6 +50,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/freeweekdays/", name="freeweekdays", methods={"GET"})
+     * returns weekday_off 3 and 7 for Wednesday and Sunday day offs
      */
     public function freeWeekdays() : Response { 
         $appointments = $this->bookingRepository->freeWeekdays();
@@ -57,6 +60,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/workingtime/", name="workingtime", methods={"GET"})
+     * lists all the user id, weekday, startime, endtime, breakstart and breakend
      */
     public function workingTime() : Response { 
         $appointments = $this->bookingRepository->fetchWorkingTime();
@@ -66,6 +70,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/workinghours/", name="workinghours", methods={"GET"})
+     * lists only one starttime and endtime
      */
     public function workingHours() : Response { 
         $appointments = $this->bookingRepository->fetchWorkingHours();
@@ -75,6 +80,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/daysoff/", name="daysoff", methods={"GET"})
+     * it returns null since there is no day off mentioned
      */
     public function barbersDaysoff() : Response { 
         $appointments = $this->bookingRepository->barbersDaysoff();
@@ -84,6 +90,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/historyappointments/{id}", name="app_historyappointments", methods={"GET"})
+     * lists all the details for the history of appointements for the specified customer
      */
     public function historyAppointements(int $id): Response
     {
@@ -94,6 +101,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/bookappointments", name="app_bookappointments", methods={"POST"})
+     * Does the booking
      */
     public function bookAppointments(Request $request ): Response{
         $request_data = json_decode($request->getContent(), true);
