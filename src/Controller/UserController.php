@@ -113,4 +113,16 @@ class UserController extends AbstractController
 
         return $this->json($result);
     }
+
+    /**
+     * @Route("/cancel", name="cancel_appointment", methods={"POST"})
+     */
+    public function cancelAppointment(Request $request): Response
+    {
+        $request_data = json_decode($request->getContent(), true);
+        $id = $request_data["id"];
+        $result = $this->userRepository->cancelAppointment($id);
+
+        return $this->json($result);
+    }
 }

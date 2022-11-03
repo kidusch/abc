@@ -109,4 +109,12 @@ class UserRepository extends ServiceEntityRepository
         $resultSet = $stmt->executeQuery();
         $conn->close();
     }
+
+    public function cancelAppointment($id){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "DELETE FROM wp_795628_amelia_appointments WHERE id = '$id'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        $conn->close();
+    }
 }
