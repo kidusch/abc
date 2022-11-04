@@ -135,12 +135,14 @@ class UserController extends AbstractController
      */
     public function forgetPassword(Request $request, MailerInterface $mailer): Response
     {
+        $transport = Transport::fromDsn('smtp://localhost');
+        $mailer = new Mailer($transport);
         $request_data = json_decode($request->getContent(), true);
         $email = $request_data["email"];
         //dd($email);
         $email = (new Email())
             ->from('info@abc-barber.ch')
-            ->to('kidus.dejen@gmail.com')
+            ->to($email)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
