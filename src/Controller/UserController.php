@@ -7,6 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Mailer;
 
 class UserController extends AbstractController
 {
@@ -125,4 +129,52 @@ class UserController extends AbstractController
 
         return $this->json($result);
     }
+
+    /**
+     * @Route("/forget", name="forget_password", methods={"POST"})
+     */
+    public function forgetPassword(Request $request, MailerInterface $mailer): Response
+    {
+        $request_data = json_decode($request->getContent(), true);
+        $email = $request_data["email"];
+        //dd($email);
+        $email = (new Email())
+            ->from('info@abc-barber.ch')
+            ->to('kidus.dejen@gmail.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($email);
+
+        return $this->json($email);
+    }
+
+
+    /**
+     * @Route("/email", name="email")
+     */
+    public function email( MailerInterface $mailer): Response
+    {
+        $transport = Transport::fromDsn('smtp://localhost');
+        $mailer = new Mailer($transport);
+        $email = (new Email())
+            ->from('info@abc-barber.ch')
+            ->to('kidus.dejen@gmail.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($email);
+    }
+
+    
 }
