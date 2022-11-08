@@ -112,7 +112,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function cancelAppointment($id){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "DELETE FROM wp_795628_amelia_appointments WHERE id = '$id'";
+        $sql = "DELETE wp_795628_amelia_appointments,wp_795628_amelia_customer_bookings FROM wp_795628_amelia_appointments INNER JOIN  wp_795628_amelia_customer_bookings ON wp_795628_amelia_customer_bookings.appointmentId=wp_795628_amelia_appointments.id WHERE wp_795628_amelia_appointments.id='$id'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
