@@ -140,7 +140,9 @@ class UserController extends AbstractController
         $request_data = json_decode($request->getContent(), true);
         $email = $request_data["email"];
         //dd($email);
-        $email = (new Email())
+        $check = $this->userRepository->fetchUser($email);
+        if ($check){
+            $email = (new Email())
             ->from('info@abc-barber.ch')
             ->to($email)
             //->cc('cc@example.com')
@@ -151,8 +153,22 @@ class UserController extends AbstractController
             ->text('Sending emails is fun again!')
             ->html('<p>See Twig integration for better HTML integration!</p>');
 
-        $mailer->send($email);
+            $mailer->send($email);
+        } else {
+            $email = (new Email())
+            ->from('info@abc-barber.ch')
+            ->to($email)
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("Couldn't find your email")
+            ->text("Couldn't find your email in our Database. Please sign up if you have an account yet!")
+            ->html("<p>Couldn't find your email in our Database. Please sign up if you have an account yet!</p>");
 
+            $mailer->send($email);
+        }
+        
         return $this->json($email);
     }
 

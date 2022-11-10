@@ -117,4 +117,5 @@ class UserRepository extends ServiceEntityRepository
         $resultSet = $stmt->executeQuery();
         $conn->close();
     }
+
 }
