@@ -141,7 +141,7 @@ class UserController extends AbstractController
         $email = $request_data["email"];
         //dd($email);
         $check = $this->userRepository->fetchUser($email);
-        //$id = $check["id"];
+        $id = $check->getId();
         if ($check){
             $email = (new Email())
             ->from('info@abc-barber.ch')
