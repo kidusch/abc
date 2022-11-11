@@ -129,6 +129,16 @@ class UserController extends AbstractController
 
         return $this->json($result);
     }
+    /**
+     * @Route("/play", name="play", methods={"POST"})
+     */
+    public function play(Request $request): Response
+    {
+        $request_data = json_decode($request->getContent(), true);
+        $email = $request_data["email"];
+        $check = $this->userRepository->fetchUser($email);
+        return $this->json($check[0]['id']);
+    }
 
     /**
      * @Route("/forget", name="forget_password", methods={"POST"})
@@ -139,9 +149,8 @@ class UserController extends AbstractController
         $mailer = new Mailer($transport);
         $request_data = json_decode($request->getContent(), true);
         $email = $request_data["email"];
-        //dd($email);
         $check = $this->userRepository->fetchUser($email);
-        $id = $check[['id']];
+        $id = $check[0]['id'];
         if ($check){
             $email = (new Email())
             ->from('info@abc-barber.ch')
@@ -152,7 +161,7 @@ class UserController extends AbstractController
             //->priority(Email::PRIORITY_HIGH)
             ->subject('ABC Barber - Réinitialiserr mot de passe')
             ->text('ABC Barber - Réinitialiser mot de passe')
-            ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forget/".$email);
+            ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forget/".$id);
 
             $mailer->send($email);
         } else {
@@ -170,7 +179,7 @@ class UserController extends AbstractController
             $mailer->send($email);
         }
         
-        return $this->json($check);
+        return $this->json($email);
     }
 
 
