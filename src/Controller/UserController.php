@@ -149,9 +149,9 @@ class UserController extends AbstractController
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+            ->subject('ABC Barber - Réinitialiserr mot de passe')
+            ->text('ABC Barber - Réinitialiser mot de passe')
+            ->html("<h1>Réinitialiser ton mot de passe</h1></br></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forget/".$email);
 
             $mailer->send($email);
         } else {
