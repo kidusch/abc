@@ -152,7 +152,7 @@ class UserController extends AbstractController
             //->priority(Email::PRIORITY_HIGH)
             ->subject('ABC Barber - Réinitialiserr mot de passe')
             ->text('ABC Barber - Réinitialiser mot de passe')
-            ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forget/".$email);
+            ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forget/".$id);
 
             $mailer->send($email);
         } else {
