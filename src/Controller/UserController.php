@@ -162,7 +162,7 @@ class UserController extends AbstractController
             //->priority(Email::PRIORITY_HIGH)
             ->subject('ABC Barber - Réinitialiserr mot de passe')
             ->text('ABC Barber - Réinitialiser mot de passe')
-            ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forget/".$id."/".$firstName);
+            ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forgot/".$id."/".$firstName);
 
             $mailer->send($email);
         } else {
@@ -183,7 +183,16 @@ class UserController extends AbstractController
         return $this->json($email);
     }
 
-
+    /**
+     * @Route("/forgot/{id}/{firstName}", name="insitialize")
+     */
+    public function initialize($id, $firstName): Response
+    {
+        return $this->render('initialize.html.twig', [
+            'id' => $id,
+            'firstName' => $firstName
+        ]);
+    }
     /**
      * @Route("/email", name="email")
      */
