@@ -57,8 +57,10 @@ class UserController extends AbstractController
 
     /**
      * @Route("/signup", name="sign_up", methods={"POST"})
+     * 
+     * To Do: Needs to send an email 
      */
-    public function signup(Request $request): Response
+    public function signup(Request $request, MailerInterface $mailer): Response
     {
         $request_data = json_decode($request->getContent(), true);
         $user_data = $this->userRepository->checkEmail($request_data["email"]);
@@ -190,6 +192,10 @@ class UserController extends AbstractController
 
     /**
      * @Route("/forgot/{id}/{firstName}", name="insitialize")
+     * TO DO
+     * This link is generated in the previous function and sent to the user by email. 
+     * When the user clicks on it, it first checks the id with the firstName and if it matches, then it lets the users modify the password
+     * The submitted form should take the new password and update it on the database 
      */
     public function initialize($id, $firstName, Request $request): Response
     {
@@ -217,26 +223,6 @@ class UserController extends AbstractController
                 'form' => $form->createView()
             ]);
         }  
-    }
-    /**
-     * @Route("/email", name="email")
-     */
-    public function email( MailerInterface $mailer): Response
-    {
-        $transport = Transport::fromDsn('smtp://localhost');
-        $mailer = new Mailer($transport);
-        $email = (new Email())
-            ->from('info@abc-barber.ch')
-            ->to('kidus.dejen@gmail.com')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-
-        $mailer->send($email);
     }
 
     
