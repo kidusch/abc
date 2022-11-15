@@ -58,7 +58,7 @@ class UserController extends AbstractController
     /**
      * @Route("/signup", name="sign_up", methods={"POST"})
      */
-    public function signup(Request $request, MailerInterface $mailer): Response
+    public function signup(Request $request): Response
     {
         $request_data = json_decode($request->getContent(), true);
         $user_data = $this->userRepository->checkEmail($request_data["email"]);
