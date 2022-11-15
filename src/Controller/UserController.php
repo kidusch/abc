@@ -11,6 +11,11 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use App\Form\ChangePasswordType;
+use Symfony\Component\Security\Core\User\User;
 
 class UserController extends AbstractController
 {
@@ -53,13 +58,27 @@ class UserController extends AbstractController
     /**
      * @Route("/signup", name="sign_up", methods={"POST"})
      */
-    public function signup(Request $request): Response
+    public function signup(Request $request, MailerInterface $mailer): Response
     {
         $request_data = json_decode($request->getContent(), true);
         $user_data = $this->userRepository->checkEmail($request_data["email"]);
         if (empty($user_data)) {
             $r = $this->userRepository->register($request_data["firstName"], $request_data["lastName"], $request_data["phoneNo"], $request_data["email"], $request_data["password"]);
             $result = $this->userRepository->fetchId($request_data["email"]);
+            $transport = Transport::fromDsn('smtp://localhost');
+            $mailer = new Mailer($transport);
+            $email = (new Email())
+                ->from('info@abc-barber.ch')
+                ->to($request_data["email"])
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('Bienvenue à la famille de ABC Barber')
+                ->text('Bienvenue à la famille de ABC Barber!')
+                ->html('<p>Merci de vous inscrire au platform de ABC Barber!</p>');
+
+            $mailer->send($email);
             return $this->json(['Success' => 'Successfuly Registered.', 'user_id' => $result[0]["id"]]);
         } else {
             return $this->json(['Failure' => 'Email already exists!']);
@@ -186,12 +205,32 @@ class UserController extends AbstractController
     /**
      * @Route("/forgot/{id}/{firstName}", name="insitialize")
      */
-    public function initialize($id, $firstName): Response
+    public function initialize($id, $firstName, Request $request): Response
     {
-        return $this->render('initialize.html.twig', [
-            'id' => $id,
-            'firstName' => $firstName
-        ]);
+        $checkid  = $this->userRepository->checkid($id, $firstName);
+        $form = $this->createForm(ChangePasswordType::class);
+        $form->handleRequest($request);
+        $email = $this->email();
+
+        if ($form->isSubmitted() && $form->isValid()){
+            dd($form->getData());
+        }
+        if ($checkid){
+            if ($form)
+            return $this->render('initialize.html.twig', [
+                'id' => $id,
+                'firstName' => $firstName,
+                'status' => "ok",
+                'form' => $form->createView()
+            ]);
+        } else {
+            return $this->render('initialize.html.twig', [
+                'id' => $id,
+                'firstName' => $firstName,
+                'status' => "no",
+                'form' => $form->createView()
+            ]);
+        }  
     }
     /**
      * @Route("/email", name="email")

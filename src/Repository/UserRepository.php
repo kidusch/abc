@@ -117,5 +117,13 @@ class UserRepository extends ServiceEntityRepository
         $resultSet = $stmt->executeQuery();
         $conn->close();
     }
-
+    public function checkid($id, $firstName){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM wp_795628_amelia_users WHERE id = '$id' AND firstName= '$firstName'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        $conn->close();
+        return $resultSet->fetchAllAssociative();
+    }
+    
 }
