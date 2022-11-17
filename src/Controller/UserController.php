@@ -162,9 +162,7 @@ class UserController extends AbstractController
         $transport = Transport::fromDsn('smtp://localhost');
         $mailer = new Mailer($transport);
         
-
-        if ($check){
-            $email = (new Email())
+        $email = (new Email())
             ->from('info@abc-barber.ch')
             ->to($email)
             //->cc('cc@example.com')
@@ -175,21 +173,8 @@ class UserController extends AbstractController
             ->text('ABC Barber - Réinitialiser mot de passe')
             ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forgot/".$id."/".$firstName);
 
-            $mailer->send($email);
-        } else {
-            $email = (new Email())
-            ->from('info@abc-barber.ch')
-            ->to($email)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject("Couldn't find your email")
-            ->text("Couldn't find your email in our Database. Please sign up if you have an account yet!")
-            ->html("<p>Couldn't find your email in our Database. Please sign up if you have an account yet!</p>");
-
-            $mailer->send($email);
-        }
+        $mailer->send($email);    
+        
         
         return $this->json($email);
     }
