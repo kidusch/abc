@@ -136,6 +136,7 @@ class UserController extends AbstractController
 
         return $this->json($result);
     }
+
     /**
      * @Route("/play", name="play", methods={"POST"})
      */
@@ -150,16 +151,18 @@ class UserController extends AbstractController
     /**
      * @Route("/forget", name="forget_password", methods={"POST"})
      */
-    public function forgetPassword(Request $request, MailerInterface $mailer): Response
+    public function forgetPassword(Request $request): Response
     {
-        $transport = Transport::fromDsn('smtp://localhost');
-        $mailer = new Mailer($transport);
         $request_data = json_decode($request->getContent(), true);
         $email = $request_data["email"];
         $check = $this->userRepository->fetchUser($email);
         $id = $check[0]['id'];
         $firstName = $check[0]['firstName'];
-        dd($firstName);
+        //return $this->json($firstName);
+        $transport = Transport::fromDsn('smtp://localhost');
+        $mailer = new Mailer($transport);
+        
+
         if ($check){
             $email = (new Email())
             ->from('info@abc-barber.ch')
