@@ -9,12 +9,6 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Bonjour {{firstName}}</h1>
-        <p>Veillez insérer votre nouveau mot de passe</p>
-            {{form_start(form)}}
-                {{form_row(form.plainPassword)}}
-                {{form_row(form.submit)}}
-            {{form_end(form)}}
-    </div>
+    <h1>Le lien que vous avez n'est pas valide, veillez corriger le lien</h1>
+    
 {% endblock %}

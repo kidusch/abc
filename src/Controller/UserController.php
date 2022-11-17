@@ -208,25 +208,18 @@ class UserController extends AbstractController
         $form = $this->createForm(ChangePasswordType::class);
         $form->handleRequest($request);
 
-       
         if ($checkid){
             if ($form->isSubmitted() && $form->isValid()){
-                dd($form->getData());
+                $password = $form->get('plainPassword')->getData();
+                $this->userRepository->passwordUpdate($id, $password);
+                return $this->render('successful.html.twig');
             }
             return $this->render('initialize.html.twig', [
-                'id' => $id,
                 'firstName' => $firstName,
-                'status' => "ok",
                 'form' => $form->createView()
             ]);
         } else {
-            
-            return $this->render('initialize.html.twig', [
-                'id' => $id,
-                'firstName' => $firstName,
-                'status' => "no",
-                'form' => $form->createView()
-            ]);
+            return $this->render('makesure.html.twig');
         }  
     }
 

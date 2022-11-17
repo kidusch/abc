@@ -126,4 +126,12 @@ class UserRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
     
+    public function passwordUpdate($id, $password){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "UPDATE wp_795628_amelia_users SET password = '$password' WHERE id = $id";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        $conn->close();
+    }
+    
 }
