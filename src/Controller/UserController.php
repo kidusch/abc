@@ -156,14 +156,15 @@ class UserController extends AbstractController
         $request_data = json_decode($request->getContent(), true);
         $email = $request_data["email"];
         $check = $this->userRepository->fetchUser($email);
-        $id = $check[0]['id'];
-        $firstName = $check[0]['firstName'];
+        
         //return $this->json($firstName);
         $transport = Transport::fromDsn('smtp://localhost');
         $mailer = new Mailer($transport);
         
 
         if ($check){
+            $id = $check[0]['id'];
+            $firstName = $check[0]['firstName'];
             $email = (new Email())
             ->from('info@abc-barber.ch')
             ->to($email)
