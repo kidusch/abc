@@ -206,13 +206,11 @@ class UserController extends AbstractController
         $checkid  = $this->userRepository->checkid($id, $firstName);
         $form = $this->createForm(ChangePasswordType::class);
         $form->handleRequest($request);
-        $email = $this->email();
-
-        if ($form->isSubmitted() && $form->isValid()){
-            dd($form->getData());
-        }
+       
         if ($checkid){
-            if ($form)
+            if ($form->isSubmitted() && $form->isValid()){
+                dd($form->getData());
+            }
             return $this->render('initialize.html.twig', [
                 'id' => $id,
                 'firstName' => $firstName,
@@ -220,6 +218,7 @@ class UserController extends AbstractController
                 'form' => $form->createView()
             ]);
         } else {
+            
             return $this->render('initialize.html.twig', [
                 'id' => $id,
                 'firstName' => $firstName,
