@@ -67,6 +67,21 @@ class UserController extends AbstractController
         if (empty($user_data)) {
             $r = $this->userRepository->register($request_data["firstName"], $request_data["lastName"], $request_data["phoneNo"], $request_data["email"], $request_data["password"]);
             $result = $this->userRepository->fetchId($request_data["email"]);
+            $transport = Transport::fromDsn('smtp://localhost');
+            $mailer = new Mailer($transport);
+            $email = $request_data["email"];
+            $email = (new Email())
+            ->from('info@abc-barber.ch')
+            ->to($email)
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('ABC Barber - Bienvenue!')
+            ->text('ABC Barber - Bienvenue!')
+            ->html("<h1>ABC Barber - Bienvenue!</h1></br><p>Merci d'être famille de ABC Barber. Vous pouvez désormais réserver l'heure pour couper votre cheveaux très facilement</p>");
+
+            $mailer->send($email);
             return $this->json(['Success' => 'Successfuly Registered.', 'user_id' => $result[0]["id"]]);
         } else {
             return $this->json(['Failure' => 'Email already exists!']);
