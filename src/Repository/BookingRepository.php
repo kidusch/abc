@@ -143,6 +143,15 @@ class BookingRepository extends ServiceEntityRepository
 
         return $result1;
     }
+
+    public function fetchEmail($id){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM wp_795628_amelia_users WHERE wp_795628_amelia_users.id = '$id'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        $conn->close();
+        return $resultSet->fetchAllAssociative();
+    }
     
 //    /**
 //     * @return Booking[] Returns an array of Booking objects

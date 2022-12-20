@@ -7,6 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\BookingRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\MailerInterface;
 
 class BookingController extends AbstractController
 {
@@ -107,7 +111,24 @@ class BookingController extends AbstractController
         $request_data = json_decode($request->getContent(), true);
 
         $result = $this->bookingRepository->bookAppointments($request_data["bookingStart"], $request_data["bookingEnd"], $request_data["serviceId"], $request_data["providerId"], $request_data["servicePrice"], $request_data["customerId"]);
+        
+        $customerId = $request_data["customerId"];
+        $email = $this->bookingRepository->fetchEmail($customerId);
+        $transport = Transport::fromDsn('smtp://localhost');
+        $mailer = new Mailer($transport);
+        $email = (new Email())
+            ->from('info@abc-barber.ch')
+            ->to($email[0]["email"])
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('ABC Barber - Rendez-Vous Confirmation')
+            ->text('ABC Barber - Rendez-Vous Confirmation')
+            ->html("<h1>Votre Rendez-Vous chez ABC Barber</h1><p>Début de rendez-vous:".$request_data["bookingStart"]."</p><p>Fin de rendez-vous:".$request_data["bookingEnd"]."</p>");
 
+        $mailer->send($email);
+        
         return $this->json(['Success' => 'Appointment Successfully Booked!']);
     }
 }
