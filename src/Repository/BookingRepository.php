@@ -93,7 +93,7 @@ class BookingRepository extends ServiceEntityRepository
     public function fetchWorkingTime()
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * FROM `wp_885324_amelia_working _time`";
+        $sql = "SELECT id, userId, dayIndex AS weekDay, startTime, endTime FROM `wp_885324_amelia_providers_to_weekdays`";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         return $resultSet->fetchAllAssociative();
