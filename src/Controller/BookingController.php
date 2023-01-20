@@ -123,9 +123,9 @@ class BookingController extends AbstractController
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('ABC Barber - Rendez-Vous Confirmation')
-            ->text('ABC Barber - Rendez-Vous Confirmation')
-            ->html("<h1>Votre Rendez-Vous chez ABC Barber</h1><p>Début de rendez-vous:".$request_data["bookingStart"]."</p><p>Fin de rendez-vous:".$request_data["bookingEnd"]."</p>");
+            ->subject('Geneva Barbers - Rendez-Vous Confirmation')
+            ->text('Geneva Barbers - Rendez-Vous Confirmation')
+            ->html("<h1>Votre Rendez-Vous chez Geneva Barbers</h1><p>Début de rendez-vous:".$request_data["bookingStart"]."</p><p>Fin de rendez-vous:".$request_data["bookingEnd"]."</p>");
 
         $mailer->send($email);
         

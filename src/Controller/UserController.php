@@ -77,9 +77,9 @@ class UserController extends AbstractController
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('ABC Barber - Bienvenue!')
-            ->text('ABC Barber - Bienvenue!')
-            ->html("<h1>ABC Barber - Bienvenue!</h1></br><p>Merci d'être famille de ABC Barber. Vous pouvez désormais réserver l'heure pour couper votre cheveaux très facilement</p>");
+            ->subject('Geneva Barbers - Bienvenue!')
+            ->text('Geneva Barbers - Bienvenue!')
+            ->html("<h1>Geneva Barbers - Bienvenue!</h1></br><p>Merci d'être famille de Geneva Barbers. Vous pouvez désormais réserver l'heure pour couper votre cheveaux très facilement</p>");
 
             $mailer->send($email);
             return $this->json(['Success' => 'Successfuly Registered.', 'user_id' => $result[0]["id"]]);
@@ -187,8 +187,8 @@ class UserController extends AbstractController
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('ABC Barber - Réinitialiserr mot de passe')
-            ->text('ABC Barber - Réinitialiser mot de passe')
+            ->subject('Geneva Barbers - Réinitialiserr mot de passe')
+            ->text('Geneva Barbers - Réinitialiser mot de passe')
             ->html("<h1>Réinitialiser ton mot de passe</h1></br><p>Clique sur le lien pour réinitialiser ton mot de passe: https://api.abc-barber.ch/forgot/".$id."/".$firstName);
 
             $mailer->send($email);
