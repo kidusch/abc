@@ -28,7 +28,7 @@ class UserRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT * 
-        FROM wp_885580_amelia_users 
+        FROM wp_795628_amelia_users 
         WHERE email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
@@ -38,7 +38,7 @@ class UserRepository extends ServiceEntityRepository
     public function fetchId($email){
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT id 
-        FROM wp_885580_amelia_users 
+        FROM wp_795628_amelia_users 
         WHERE email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
@@ -48,7 +48,7 @@ class UserRepository extends ServiceEntityRepository
     public function authenticate(string $email, string $password){
         $conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT * 
-        FROM wp_885580_amelia_users 
+        FROM wp_795628_amelia_users 
         WHERE email = '$email' AND password = '$password'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
@@ -57,7 +57,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function register($first_name, $last_name, $phone_num, $email, $password){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "INSERT INTO wp_885580_amelia_users (status, type, firstName, lastName, phone, email, password) 
+        $sql = "INSERT INTO wp_795628_amelia_users (status, type, firstName, lastName, phone, email, password) 
         VALUES ('visible', 'customer', '$first_name', '$last_name', '$phone_num', '$email', '$password')";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
@@ -67,7 +67,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function updateUser($first_name, $last_name, $phone_num, $email, $password){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "UPDATE wp_885580_amelia_users 
+        $sql = "UPDATE wp_795628_amelia_users 
         SET firstName = '$first_name', lastName = '$last_name', phone = '$phone_num', password = '$password' WHERE email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
@@ -78,7 +78,7 @@ class UserRepository extends ServiceEntityRepository
     public function updatePassword(string $email, string $password)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "UPDATE wp_885580_amelia_users SET password = '$password' WHERE email = '$email'";
+        $sql = "UPDATE wp_795628_amelia_users SET password = '$password' WHERE email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
@@ -86,7 +86,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function fetchBarbers(){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * FROM wp_885580_amelia_users WHERE wp_885580_amelia_users.type = 'provider'";
+        $sql = "SELECT * FROM wp_795628_amelia_users WHERE wp_795628_amelia_users.type = 'provider'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
@@ -95,7 +95,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function fetchUser($email){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * FROM wp_885580_amelia_users WHERE wp_885580_amelia_users.email = '$email'";
+        $sql = "SELECT * FROM wp_795628_amelia_users WHERE wp_795628_amelia_users.email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
@@ -104,7 +104,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function deleteUser($email){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "DELETE FROM wp_885580_amelia_users WHERE wp_885580_amelia_users.email = '$email'";
+        $sql = "DELETE FROM wp_795628_amelia_users WHERE wp_795628_amelia_users.email = '$email'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
@@ -112,14 +112,14 @@ class UserRepository extends ServiceEntityRepository
 
     public function cancelAppointment($id){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "DELETE wp_885580_amelia_appointments,wp_885580_amelia_customer_bookings FROM wp_885580_amelia_appointments INNER JOIN  wp_885580_amelia_customer_bookings ON wp_885580_amelia_customer_bookings.appointmentId=wp_885580_amelia_appointments.id WHERE wp_885580_amelia_appointments.id='$id'";
+        $sql = "DELETE wp_795628_amelia_appointments,wp_795628_amelia_customer_bookings FROM wp_795628_amelia_appointments INNER JOIN  wp_795628_amelia_customer_bookings ON wp_795628_amelia_customer_bookings.appointmentId=wp_795628_amelia_appointments.id WHERE wp_795628_amelia_appointments.id='$id'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
     }
     public function checkid($id, $firstName){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * FROM wp_885580_amelia_users WHERE id = '$id' AND firstName= '$firstName'";
+        $sql = "SELECT * FROM wp_795628_amelia_users WHERE id = '$id' AND firstName= '$firstName'";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
@@ -128,7 +128,7 @@ class UserRepository extends ServiceEntityRepository
     
     public function passwordUpdate($id, $password){
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "UPDATE wp_885580_amelia_users SET password = '$password' WHERE id = $id";
+        $sql = "UPDATE wp_795628_amelia_users SET password = '$password' WHERE id = $id";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
         $conn->close();
