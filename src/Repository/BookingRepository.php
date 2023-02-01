@@ -152,6 +152,14 @@ class BookingRepository extends ServiceEntityRepository
         $conn->close();
         return $resultSet->fetchAllAssociative();
     }
-    
 
+    public function checkfree($bookingStart, $bookingEnd, $providerId){
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * 
+        FROM `wp_795628_amelia_appointments` 
+        WHERE (bookingStart = '$bookingStart' OR bookingEnd = '$bookingEnd') AND providerId = '$providerId'";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
 }

@@ -110,25 +110,31 @@ class BookingController extends AbstractController
     public function bookAppointments(Request $request ): Response{
         $request_data = json_decode($request->getContent(), true);
 
-        $result = $this->bookingRepository->bookAppointments($request_data["bookingStart"], $request_data["bookingEnd"], $request_data["serviceId"], $request_data["providerId"], $request_data["servicePrice"], $request_data["customerId"]);
-        
-        $customerId = $request_data["customerId"];
-        $email = $this->bookingRepository->fetchEmail($customerId);
-        $transport = Transport::fromDsn('smtp://localhost');
-        $mailer = new Mailer($transport);
-        $email = (new Email())
-            ->from('info@abc-barber.ch')
-            ->to($email[0]["email"])
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Geneva Barbers - Rendez-Vous Confirmation')
-            ->text('Geneva Barbers - Rendez-Vous Confirmation')
-            ->html("<h1>Votre Rendez-Vous chez Geneva Barbers</h1><p>Début de rendez-vous:".$request_data["bookingStart"]."</p><p>Fin de rendez-vous:".$request_data["bookingEnd"]."</p>");
+        $check = $this->bookingRepository->checkfree($request_data["bookingStart"], $request_data["bookingEnd"], $request_data["providerId"]);
+        if(empty($check)){
+            $result = $this->bookingRepository->bookAppointments($request_data["bookingStart"], $request_data["bookingEnd"], $request_data["serviceId"], $request_data["providerId"], $request_data["servicePrice"], $request_data["customerId"]);
 
-        $mailer->send($email);
+            $customerId = $request_data["customerId"];
+            $email = $this->bookingRepository->fetchEmail($customerId);
+            $transport = Transport::fromDsn('smtp://localhost');
+            $mailer = new Mailer($transport);
+            $email = (new Email())
+                ->from('info@abc-barber.ch')
+                ->to($email[0]["email"])
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('Geneva Barbers - Rendez-Vous Confirmation')
+                ->text('Geneva Barbers - Rendez-Vous Confirmation')
+                ->html("<h1>Votre Rendez-Vous chez Geneva Barbers</h1><p>Début de rendez-vous:".$request_data["bookingStart"]."</p><p>Fin de rendez-vous:".$request_data["bookingEnd"]."</p>");
+
+            $mailer->send($email);
+            
+            return $this->json(['Success' => 'Appointment Successfully Booked!']);
+        } else {
+            return $this->json(['Success' => 'APPOINTEMENT NOT BOOKED, PLEASE CHOOSE ANOTHER TIME!']);
+        }
         
-        return $this->json(['Success' => 'Appointment Successfully Booked!']);
     }
 }
