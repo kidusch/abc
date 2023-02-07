@@ -119,7 +119,7 @@ class BookingController extends AbstractController
             $transport = Transport::fromDsn('smtp://localhost');
             $mailer = new Mailer($transport);
             $email = (new Email())
-                ->from('info@abc-barber.ch')
+                ->from('info@geneva-barbers.ch')
                 ->to($email[0]["email"])
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
