@@ -71,7 +71,7 @@ class UserController extends AbstractController
             $mailer = new Mailer($transport);
             $email = $request_data["email"];
             $email = (new Email())
-            ->from('info@geneva-barbers.ch')
+            ->from('info@abc-barber.ch')
             ->to($email)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
@@ -181,7 +181,7 @@ class UserController extends AbstractController
             $id = $check[0]['id'];
             $firstName = $check[0]['firstName'];
             $email = (new Email())
-            ->from('info@geneva-barbers.ch')
+            ->from('info@abc-barber.ch')
             ->to($email)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
@@ -194,7 +194,7 @@ class UserController extends AbstractController
             $mailer->send($email);
         } else {
             $email = (new Email())
-            ->from('info@geneva-barbers.ch')
+            ->from('info@abc-barber.ch')
             ->to($email)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
